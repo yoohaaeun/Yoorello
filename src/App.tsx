@@ -1,5 +1,13 @@
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from 'react-beautiful-dnd';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { toDoState } from './atoms';
+import DragabbleCard from './Components/DragabbleCard';
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,17 +33,20 @@ const Board = styled.div`
   min-height: 200px;
 `;
 
-const Card = styled.div`
-  border-radius: 5px;
-  margin-bottom: 5px;
-  padding: 10px 10px;
-  background-color: ${(props) => props.theme.cardColor};
-`;
-
-const toDos = ['a', 'b', 'c', 'd', 'e', 'f'];
-
 function App() {
-  const onDragEnd = () => {};
+  const [toDos, setToDos] = useRecoilState(toDoState);
+
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+
+    setToDos((prevToDos) => {
+      const toDosCopy = [...prevToDos];
+      toDosCopy.splice(source.index, 1);
+      toDosCopy.splice(destination?.index, 0, draggableId);
+      return toDosCopy;
+    });
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
@@ -43,18 +54,8 @@ function App() {
           <Droppable droppableId='one'>
             {(provided) => (
               <Board ref={provided.innerRef} {...provided.droppableProps}>
-                {toDos.map((todo, index) => (
-                  <Draggable key={index} draggableId={todo} index={index}>
-                    {(provided) => (
-                      <Card
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <span>{todo}</span>
-                      </Card>
-                    )}
-                  </Draggable>
+                {toDos.map((toDo, index) => (
+                  <DragabbleCard key={toDo} index={index} toDo={toDo} />
                 ))}
                 {provided.placeholder}
               </Board>
