@@ -25,14 +25,17 @@ const Boards = styled.div`
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
 
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+  const onDragEnd = (info: DropResult) => {
+    const { destination, source } = info;
+
     if (!destination) return;
 
     if (source.droppableId === destination.droppableId) {
       setToDos((prevToDos) => {
         const boardCopy = [...prevToDos[source.droppableId]];
+        const tskObj = boardCopy[source.index];
         boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, draggableId);
+        boardCopy.splice(destination?.index, 0, tskObj);
         return {
           ...prevToDos,
           [source.droppableId]: boardCopy,
@@ -44,8 +47,9 @@ function App() {
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
         const destinationBoard = [...allBoards[destination.droppableId]];
+        const tskObj = sourceBoard[source.index];
         sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination?.index, 0, draggableId);
+        destinationBoard.splice(destination?.index, 0, tskObj);
         return {
           ...allBoards,
           [source.droppableId]: sourceBoard,
