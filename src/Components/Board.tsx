@@ -7,11 +7,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
-  min-height: 300px;
-  padding: 20px 10px;
   padding-top: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
+  min-height: 300px;
 `;
 
 const Title = styled.h2`
@@ -28,13 +27,15 @@ interface IAreaProps {
 
 const Area = styled.div<IAreaProps>`
   flex-grow: 1;
+  padding: 20px 20px 0px 20px;
   background-color: ${(props) =>
     props.$isDraggingOver
       ? '#E8F1D9'
       : props.$isDraggingFromThis
       ? '#f1d9ea'
-      : '#bdccf6'};
+      : ''};
   transition: background-color 0.3s ease-in-out;
+  border-radius: 0 0 5px 5px;
 `;
 
 interface IBoardProps {
