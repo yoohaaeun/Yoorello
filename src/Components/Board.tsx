@@ -5,6 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
+import { v4 as uuidv4 } from 'uuid';
 
 const Wrapper = styled.div`
   display: flex;
@@ -74,7 +75,7 @@ export default function Board({ boardId, toDos }: IBoardProps) {
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
     const newToDo = {
-      id: 1214234,
+      id: uuidv4(),
       text: toDo,
     };
     setToDos((allBoards) => {

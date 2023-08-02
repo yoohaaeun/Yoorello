@@ -13,7 +13,7 @@ const Card = styled.div<{ $isDragging: boolean }>`
 `;
 
 interface IDragabbleCardProps {
-  toDoId: number;
+  toDoId: string;
   toDoText: string;
   index: number;
 }
