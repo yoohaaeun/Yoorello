@@ -64,6 +64,7 @@ body {
   background-color:${(props) => props.theme.bgColor};
   color:black;
   line-height: 1.2;
+  background-color: #E3E1DB;
 }
 a {
   text-decoration:none;
