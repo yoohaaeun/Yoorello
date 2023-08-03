@@ -2,6 +2,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from './atoms';
+import AddBoard from './Components/AddBoard';
 import Board from './Components/Board';
 
 const Wrapper = styled.div`
@@ -61,6 +62,7 @@ function App() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <AddBoard />
       <Wrapper>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
