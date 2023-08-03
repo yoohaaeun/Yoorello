@@ -9,6 +9,21 @@ interface IToDoState {
   [key: string]: IToDo[];
 }
 
+const localStorageEffect =
+  (key: string) =>
+  ({ setSelf, onSet }: any) => {
+    const savedValue = localStorage.getItem(key);
+    if (savedValue != null) {
+      setSelf(JSON.parse(savedValue));
+    }
+
+    onSet((newValue: any, _: any, isReset: any) => {
+      isReset
+        ? localStorage.removeItem(key)
+        : localStorage.setItem(key, JSON.stringify(newValue));
+    });
+  };
+
 export const toDoState = atom<IToDoState>({
   key: 'toDo',
   default: {
@@ -19,4 +34,5 @@ export const toDoState = atom<IToDoState>({
     DOING: [{ id: '124', text: '공부하기' }],
     DONE: [],
   },
+  effects: [localStorageEffect('current_user')],
 });
