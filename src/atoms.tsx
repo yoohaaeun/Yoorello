@@ -33,23 +33,19 @@ export const toDoState = atom<IToDoState[]>({
       category: 'TO DO',
       id: 'board123',
       toDos: [
-        { id: '123', text: '산책하기' },
-        { id: '125', text: '설거지하기' },
+        { id: '123', text: '🥚' },
+        { id: '125', text: '산책하기' },
       ],
     },
     {
       category: 'DOING',
       id: 'board124',
-      toDos: [
-        { id: '124', text: '공부하기' },
-        { id: '124fs', text: '공부하기1' },
-        { id: '12dsf4', text: '공부하기' },
-      ],
+      toDos: [{ id: '124', text: '🐣' }],
     },
     {
       category: 'DONE',
       id: 'board125',
-      toDos: [{ id: '126', text: '밥먹기' }],
+      toDos: [{ id: '126', text: '🐥' }],
     },
   ],
   // effects: [localStorageEffect('current_user')],

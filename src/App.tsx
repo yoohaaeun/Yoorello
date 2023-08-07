@@ -1,15 +1,9 @@
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from './atoms';
 import AddBoard from './Components/AddBoard';
 import Board from './Components/Board';
-import TestBoard from './Components/TestBoard';
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,7 +27,6 @@ function App() {
 
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
-    console.log('info', info);
 
     if (!destination) return;
 
@@ -100,7 +93,7 @@ function App() {
       <Wrapper>
         <Boards>
           {toDos.map((toDo) => (
-            <TestBoard
+            <Board
               key={toDo.id}
               boardId={toDo.id}
               toDos={toDo.toDos}

@@ -41,7 +41,6 @@ export default function AddBoard() {
   const { register, handleSubmit, setValue } = useForm<IForm>();
 
   const onValid = ({ category }: IForm) => {
-    console.log(category);
     setToDos((prev) => {
       return {
         ...prev,

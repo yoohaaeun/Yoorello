@@ -25,10 +25,10 @@ function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
         <Card
           $isDragging={snapshot.isDragging}
           ref={provided.innerRef}
-          {...provided.draggableProps}
           {...provided.dragHandleProps}
+          {...provided.draggableProps}
         >
-          <span>{toDoText}</span>
+          {toDoText}
         </Card>
       )}
     </Draggable>

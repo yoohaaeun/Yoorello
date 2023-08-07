@@ -1,4 +1,3 @@
-import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
@@ -65,39 +64,48 @@ const Form = styled.form`
 interface IBoardProps {
   toDos: IToDo[];
   boardId: string;
+  category: string;
 }
 
 interface IForm {
   toDo: string;
 }
 
-export default function Board({ boardId, toDos }: IBoardProps) {
+export default function Board({ category, toDos }: IBoardProps) {
   const setToDos = useSetRecoilState(toDoState);
+
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
     const newToDo = {
       id: uuidv4(),
       text: toDo,
     };
-    setToDos((allBoards) => {
-      return {
-        ...allBoards,
-        [boardId]: [newToDo, ...allBoards[boardId]],
-      };
+
+    setToDos((prevToDos) => {
+      return prevToDos.map((board) => {
+        if (board.category === category) {
+          return {
+            ...board,
+            toDos: [...board.toDos, newToDo],
+          };
+        } else {
+          return board;
+        }
+      });
     });
     setValue('toDo', '');
   };
 
   return (
     <Wrapper>
-      <Title>{boardId}</Title>
-      <Droppable droppableId={boardId}>
+      <Title>{category}</Title>
+      <Droppable droppableId={category}>
         {(provided, snapshot) => (
           <Area
-            $isDraggingOver={snapshot.isDraggingOver}
-            $isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
             ref={provided.innerRef}
             {...provided.droppableProps}
+            $isDraggingOver={snapshot.isDraggingOver}
+            $isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
           >
             {toDos.map((toDo, index) => (
               <DragabbleCard
@@ -115,7 +123,7 @@ export default function Board({ boardId, toDos }: IBoardProps) {
         <input
           {...register('toDo', { required: true })}
           type='text'
-          placeholder={`Add task on ${boardId}`}
+          placeholder={`Add task on ${category}`}
         />
       </Form>
     </Wrapper>
