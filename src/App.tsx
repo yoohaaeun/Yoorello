@@ -55,45 +55,43 @@ function App() {
       });
     }
 
-    // if (source.droppableId === destination.droppableId) {
-    //   setToDos((prevToDos) => {
-    //     return prevToDos.map((board) => {
-    //       console.log('board', board);
-    //       if (board.category === source.droppableId) {
-    //         const newToDos = Array.from(board.toDos);
-    //         const testToDos = board.toDos;
-    //         console.log('newToDos', newToDos);
-    //         console.log('testToDos', testToDos);
+    if (source.droppableId !== destination.droppableId) {
+      setToDos((prevToDos) => {
+        const sourceBoard = prevToDos.find(
+          (board) => board.category === source.droppableId
+        );
+        const destinationBoard = prevToDos.find(
+          (board) => board.category === destination.droppableId
+        );
 
-    //         const [removed] = newToDos.splice(source.index, 1);
-    //         console.log('removed', removed);
+        if (sourceBoard && destinationBoard) {
+          const newSourceToDos = Array.from(sourceBoard.toDos);
 
-    //         newToDos.splice(destination?.index, 0, removed);
-    //         return {
-    //           ...board,
-    //           toDos: newToDos,
-    //         };
-    //       } else {
-    //         return board;
-    //       }
-    //     });
-    //   });
-    // }
+          const [removed] = newSourceToDos.splice(source.index, 1);
 
-    // if (source.droppableId !== destination.droppableId) {
-    //   setToDos((allBoards) => {
-    //     const sourceBoard = [...allBoards[source.droppableId]];
-    //     const destinationBoard = [...allBoards[destination.droppableId]];
-    //     const tskObj = sourceBoard[source.index];
-    //     sourceBoard.splice(source.index, 1);
-    //     destinationBoard.splice(destination?.index, 0, tskObj);
-    //     return {
-    //       ...allBoards,
-    //       [source.droppableId]: sourceBoard,
-    //       [destination.droppableId]: destinationBoard,
-    //     };
-    //   });
-    // }
+          const newDestinationToDos = Array.from(destinationBoard.toDos);
+          newDestinationToDos.splice(destination.index, 0, removed);
+
+          return prevToDos.map((board) => {
+            if (board.category === source.droppableId) {
+              return {
+                ...board,
+                toDos: newSourceToDos,
+              };
+            } else if (board.category === destination.droppableId) {
+              return {
+                ...board,
+                toDos: newDestinationToDos,
+              };
+            } else {
+              return board;
+            }
+          });
+        } else {
+          return prevToDos;
+        }
+      });
+    }
   };
 
   return (
