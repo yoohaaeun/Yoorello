@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from '../atoms';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { BsPencil } from 'react-icons/bs';
 
 const Card = styled.div<{ $isDragging: boolean }>`
   display: flex;
@@ -16,6 +17,12 @@ const Card = styled.div<{ $isDragging: boolean }>`
     props.$isDragging ? '#e3e3e3' : props.theme.cardColor};
   box-shadow: ${(props) =>
     props.$isDragging ? '0px 5px 25px #b0b0b0' : 'none'};
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Button = styled.button`
@@ -38,11 +45,39 @@ interface IDragabbleCardProps {
 
 function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
   const setToDos = useSetRecoilState(toDoState);
-  const onDelete = (toDoId: string) => {
+  const onDelete = () => {
     if (window.confirm(`${toDoText} 할 일을 삭제하시겠습니까?`)) {
       setToDos((prevToDos) => {
         return prevToDos.map((board) => {
           const updatedToDos = board.toDos.filter((todo) => todo.id !== toDoId);
+          return {
+            ...board,
+            toDos: updatedToDos,
+          };
+        });
+      });
+    }
+  };
+
+  const onEdit = () => {
+    const newToDoText = window
+      .prompt('변경할 할 일 내용을 입력해주세요.', toDoText)
+      ?.trim();
+
+    if (newToDoText) {
+      setToDos((prevToDos) => {
+        return prevToDos.map((board) => {
+          const updatedToDos = board.toDos.map((toDo) => {
+            if (toDo.id === toDoId) {
+              return {
+                ...toDo,
+                text: newToDoText,
+              };
+            } else {
+              return toDo;
+            }
+          });
+
           return {
             ...board,
             toDos: updatedToDos,
@@ -62,9 +97,14 @@ function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
           {...provided.draggableProps}
         >
           <span>{toDoText}</span>
-          <Button onClick={() => onDelete(toDoId)}>
-            <AiOutlineDelete name='delete' />
-          </Button>
+          <Buttons>
+            <Button onClick={onEdit}>
+              <BsPencil name='edit' />
+            </Button>
+            <Button onClick={onDelete}>
+              <AiOutlineDelete name='delete' />
+            </Button>
+          </Buttons>
         </Card>
       )}
     </Draggable>

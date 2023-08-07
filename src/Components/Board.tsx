@@ -6,6 +6,7 @@ import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { BsPencil } from 'react-icons/bs';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,6 +31,12 @@ const Title = styled.h2`
   font-weight: 600;
   margin-bottom: 10px;
   font-size: 18px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Button = styled.button`
@@ -121,6 +128,27 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
     setValue('toDo', '');
   };
 
+  const onEdit = () => {
+    const newCategory = window
+      .prompt('변경할 보드 이름을 입력해주세요.', category)
+      ?.trim();
+
+    if (newCategory) {
+      setToDos((allBoards) => {
+        return allBoards.map((board) => {
+          if (board.id === boardId) {
+            return {
+              ...board,
+              category: newCategory,
+            };
+          } else {
+            return board;
+          }
+        });
+      });
+    }
+  };
+
   const onDeleteBoard = (category: string) => {
     if (window.confirm(`${category} 보드를 삭제하시겠습니까?`)) {
       setToDos((prevToDos) => {
@@ -134,13 +162,19 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
     <Wrapper>
       <Header>
         <Title>{category}</Title>
-        <Button
-          onClick={() => {
-            onDeleteBoard(category);
-          }}
-        >
-          <AiOutlineDelete name='delete' />
-        </Button>
+        <Buttons>
+          {' '}
+          <Button onClick={onEdit}>
+            <BsPencil name='edit' />
+          </Button>
+          <Button
+            onClick={() => {
+              onDeleteBoard(category);
+            }}
+          >
+            <AiOutlineDelete name='delete' />
+          </Button>
+        </Buttons>
       </Header>
       <Droppable droppableId={boardId}>
         {(provided, snapshot) => (
