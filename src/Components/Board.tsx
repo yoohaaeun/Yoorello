@@ -71,7 +71,7 @@ interface IForm {
   toDo: string;
 }
 
-export default function Board({ category, toDos }: IBoardProps) {
+export default function Board({ category, toDos, boardId }: IBoardProps) {
   const setToDos = useSetRecoilState(toDoState);
 
   const { register, setValue, handleSubmit } = useForm<IForm>();
@@ -83,7 +83,7 @@ export default function Board({ category, toDos }: IBoardProps) {
 
     setToDos((prevToDos) => {
       return prevToDos.map((board) => {
-        if (board.category === category) {
+        if (board.id === boardId) {
           return {
             ...board,
             toDos: [...board.toDos, newToDo],
@@ -99,7 +99,7 @@ export default function Board({ category, toDos }: IBoardProps) {
   return (
     <Wrapper>
       <Title>{category}</Title>
-      <Droppable droppableId={category}>
+      <Droppable droppableId={boardId}>
         {(provided, snapshot) => (
           <Area
             ref={provided.innerRef}

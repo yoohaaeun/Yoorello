@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from '../atoms';
+import { v4 as uuidv4 } from 'uuid';
 
 const From = styled.form`
   display: flex;
@@ -42,11 +43,15 @@ export default function AddBoard() {
 
   const onValid = ({ category }: IForm) => {
     setToDos((prev) => {
-      return {
-        ...prev,
-        [category]: [],
+      const newBoard = {
+        category: category,
+        id: `board-${uuidv4()}`,
+        toDos: [],
       };
+
+      return [...prev, newBoard];
     });
+
     setValue('category', '');
   };
 

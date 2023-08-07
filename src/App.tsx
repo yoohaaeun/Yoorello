@@ -28,13 +28,14 @@ function App() {
 
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
+    console.log(info);
 
     if (!destination) return;
 
     if (source.droppableId === destination.droppableId) {
       setToDos((prevToDos) => {
         return prevToDos.map((board) => {
-          if (board.category === source.droppableId) {
+          if (board.id === source.droppableId) {
             const newToDos = Array.from(board.toDos);
             const [removed] = newToDos.splice(source.index, 1);
             newToDos.splice(destination?.index, 0, removed);
@@ -52,10 +53,10 @@ function App() {
     if (source.droppableId !== destination.droppableId) {
       setToDos((prevToDos) => {
         const sourceBoard = prevToDos.find(
-          (board) => board.category === source.droppableId
+          (board) => board.id === source.droppableId
         );
         const destinationBoard = prevToDos.find(
-          (board) => board.category === destination.droppableId
+          (board) => board.id === destination.droppableId
         );
 
         if (sourceBoard && destinationBoard) {
@@ -67,12 +68,12 @@ function App() {
           newDestinationToDos.splice(destination.index, 0, removed);
 
           return prevToDos.map((board) => {
-            if (board.category === source.droppableId) {
+            if (board.id === source.droppableId) {
               return {
                 ...board,
                 toDos: newSourceToDos,
               };
-            } else if (board.category === destination.droppableId) {
+            } else if (board.id === destination.droppableId) {
               return {
                 ...board,
                 toDos: newDestinationToDos,

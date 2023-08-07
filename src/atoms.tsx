@@ -11,20 +11,20 @@ export interface IToDo {
   text: string;
 }
 
-const localStorageEffect =
-  (key: string) =>
-  ({ setSelf, onSet }: any) => {
-    const savedValue = localStorage.getItem(key);
-    if (savedValue != null) {
-      setSelf(JSON.parse(savedValue));
-    }
+// const localStorageEffect =
+//   (key: string) =>
+//   ({ setSelf, onSet }: any) => {
+//     const savedValue = localStorage.getItem(key);
+//     if (savedValue != null) {
+//       setSelf(JSON.parse(savedValue));
+//     }
 
-    onSet((newValue: any, _: any, isReset: any) => {
-      isReset
-        ? localStorage.removeItem(key)
-        : localStorage.setItem(key, JSON.stringify(newValue));
-    });
-  };
+//     onSet((newValue: any, _: any, isReset: any) => {
+//       isReset
+//         ? localStorage.removeItem(key)
+//         : localStorage.setItem(key, JSON.stringify(newValue));
+//     });
+//   };
 
 export const toDoState = atom<IToDoState[]>({
   key: 'toDo',
@@ -49,5 +49,5 @@ export const toDoState = atom<IToDoState[]>({
     },
   ],
 
-  effects: [localStorageEffect('yoorello-to-dos')],
+  // effects: [localStorageEffect('yoorello-to-dos')],
 });
