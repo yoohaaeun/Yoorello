@@ -42,9 +42,13 @@ export default function AddBoard() {
   const { register, handleSubmit, setValue } = useForm<IForm>();
 
   const onValid = ({ category }: IForm) => {
+    if (category.trim() === '') {
+      return;
+    }
+
     setToDos((prev) => {
       const newBoard = {
-        category: category,
+        category,
         id: `board-${uuidv4()}`,
         toDos: [],
       };

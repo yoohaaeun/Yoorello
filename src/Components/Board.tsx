@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
+import { AiOutlineDelete } from 'react-icons/ai';
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,11 +18,31 @@ const Wrapper = styled.div`
   min-height: 300px;
 `;
 
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px 5px 15px;
+`;
+
 const Title = styled.h2`
   text-align: center;
   font-weight: 600;
   margin-bottom: 10px;
   font-size: 18px;
+`;
+
+const Button = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  font-size: 18px;
+
+  &:hover {
+    color: #ff7458;
+    transform: scale(1.2);
+  }
 `;
 
 interface IAreaProps {
@@ -76,6 +97,10 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
 
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
+    if (toDo.trim() === '') {
+      return;
+    }
+
     const newToDo = {
       id: uuidv4(),
       text: toDo,
@@ -96,9 +121,27 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
     setValue('toDo', '');
   };
 
+  const onDeleteBoard = (category: string) => {
+    if (window.confirm(`${category} 보드를 삭제하시겠습니까?`)) {
+      setToDos((prevToDos) => {
+        const updatedToDos = prevToDos.filter((board) => board.id !== boardId);
+        return updatedToDos;
+      });
+    }
+  };
+
   return (
     <Wrapper>
-      <Title>{category}</Title>
+      <Header>
+        <Title>{category}</Title>
+        <Button
+          onClick={() => {
+            onDeleteBoard(category);
+          }}
+        >
+          <AiOutlineDelete name='delete' />
+        </Button>
+      </Header>
       <Droppable droppableId={boardId}>
         {(provided, snapshot) => (
           <Area
