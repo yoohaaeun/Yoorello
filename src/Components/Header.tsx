@@ -5,7 +5,7 @@ const Wrapper = styled.header`
   width: 100%;
   height: 5rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 0.7rem;
 `;
@@ -21,15 +21,22 @@ const Logo = styled.h1`
   color: #ffabb9;
   font-size: 3rem;
   font-weight: 800;
-  position: absolute;
-  left: 0.7rem;
 `;
 
-export default function Header() {
+export default function Header({ isDark, setIsDark }: any) {
+  const toggleDark = () => setIsDark((prev: any) => !prev);
+
   return (
     <Wrapper>
       <Logo>Yoorello</Logo>
       <AddBoard />
+      <div>
+        {isDark ? (
+          <div onClick={toggleDark}>☀️</div>
+        ) : (
+          <div onClick={toggleDark}>🌚</div>
+        )}
+      </div>
     </Wrapper>
   );
 }
