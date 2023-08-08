@@ -7,5 +7,6 @@ declare module 'styled-components' {
     cardColor: string;
     borderColor: string;
     focusColor: string;
+    TaskInputBg: string;
   }
 }

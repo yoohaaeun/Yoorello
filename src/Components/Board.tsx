@@ -74,7 +74,7 @@ const Area = styled.div<IAreaProps>`
 const Form = styled.form`
   width: 100%;
   text-align: center;
-  background-color: #f5f5f5;
+  background-color: ${(props) => props.theme.TaskInputBg};
   border-radius: 0 0 5px 5px;
 
   input {
@@ -82,7 +82,7 @@ const Form = styled.form`
     height: 40px;
     text-align: center;
     border: none;
-    background-color: #f5f5f5;
+    background-color: transparent;
 
     &:focus {
       outline: none;
