@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -9,7 +9,6 @@ const From = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
 `;
 
 const Input = styled.input`

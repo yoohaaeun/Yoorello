@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -88,26 +88,29 @@ function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
   };
 
   return (
-    <Draggable draggableId={toDoId + ''} index={index}>
-      {(provided, snapshot) => (
-        <Card
-          $isDragging={snapshot.isDragging}
-          ref={provided.innerRef}
-          {...provided.dragHandleProps}
-          {...provided.draggableProps}
-        >
-          <span>{toDoText}</span>
-          <Buttons>
-            <Button onClick={onEdit}>
-              <BsPencil name='edit' />
-            </Button>
-            <Button onClick={onDelete}>
-              <AiOutlineDelete name='delete' />
-            </Button>
-          </Buttons>
-        </Card>
-      )}
-    </Draggable>
+    <>
+      {' '}
+      <Draggable draggableId={toDoId + ''} index={index}>
+        {(provided, snapshot) => (
+          <Card
+            $isDragging={snapshot.isDragging}
+            ref={provided.innerRef}
+            {...provided.dragHandleProps}
+            {...provided.draggableProps}
+          >
+            <span>{toDoText}</span>
+            <Buttons>
+              <Button onClick={onEdit}>
+                <BsPencil name='edit' />
+              </Button>
+              <Button onClick={onDelete}>
+                <AiOutlineDelete name='delete' />
+              </Button>
+            </Buttons>
+          </Card>
+        )}
+      </Draggable>
+    </>
   );
 }
 

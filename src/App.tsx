@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from './atoms';
-import AddBoard from './Components/AddBoard';
 import Board from './Components/Board';
+import Header from './Components/Header';
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +11,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 5rem);
 `;
 
 const Boards = styled.div`
@@ -90,21 +89,23 @@ function App() {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <AddBoard />
-      <Wrapper>
-        <Boards>
-          {toDos.map((toDo) => (
-            <Board
-              key={toDo.id}
-              boardId={toDo.id}
-              toDos={toDo.toDos}
-              category={toDo.category}
-            />
-          ))}
-        </Boards>
-      </Wrapper>
-    </DragDropContext>
+    <>
+      <Header />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Wrapper>
+          <Boards>
+            {toDos.map((toDo) => (
+              <Board
+                key={toDo.id}
+                boardId={toDo.id}
+                toDos={toDo.toDos}
+                category={toDo.category}
+              />
+            ))}
+          </Boards>
+        </Wrapper>
+      </DragDropContext>
+    </>
   );
 }
 

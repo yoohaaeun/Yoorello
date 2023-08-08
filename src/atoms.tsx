@@ -1,5 +1,10 @@
 import { atom } from 'recoil';
 
+export const darkModeState = atom({
+  key: 'darkModeState',
+  default: false,
+});
+
 export interface IToDoState {
   category: string;
   id: string;
@@ -11,20 +16,20 @@ export interface IToDo {
   text: string;
 }
 
-// const localStorageEffect =
-//   (key: string) =>
-//   ({ setSelf, onSet }: any) => {
-//     const savedValue = localStorage.getItem(key);
-//     if (savedValue != null) {
-//       setSelf(JSON.parse(savedValue));
-//     }
+const localStorageEffect =
+  (key: string) =>
+  ({ setSelf, onSet }: any) => {
+    const savedValue = localStorage.getItem(key);
+    if (savedValue != null) {
+      setSelf(JSON.parse(savedValue));
+    }
 
-//     onSet((newValue: any, _: any, isReset: any) => {
-//       isReset
-//         ? localStorage.removeItem(key)
-//         : localStorage.setItem(key, JSON.stringify(newValue));
-//     });
-//   };
+    onSet((newValue: any, _: any, isReset: any) => {
+      isReset
+        ? localStorage.removeItem(key)
+        : localStorage.setItem(key, JSON.stringify(newValue));
+    });
+  };
 
 export const toDoState = atom<IToDoState[]>({
   key: 'toDo',
@@ -32,10 +37,7 @@ export const toDoState = atom<IToDoState[]>({
     {
       category: 'TO DO',
       id: 'board123',
-      toDos: [
-        { id: '123', text: '🥚' },
-        { id: '125', text: '산책하기' },
-      ],
+      toDos: [{ id: '123', text: '🥚' }],
     },
     {
       category: 'DOING',
@@ -49,5 +51,5 @@ export const toDoState = atom<IToDoState[]>({
     },
   ],
 
-  // effects: [localStorageEffect('yoorello-to-dos')],
+  effects: [localStorageEffect('yoorello-to-dos')],
 });
