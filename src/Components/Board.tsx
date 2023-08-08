@@ -7,6 +7,7 @@ import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsPencil } from 'react-icons/bs';
+import { TbHttpDelete } from 'react-icons/tb';
 
 const Wrapper = styled.div`
   display: flex;
@@ -149,6 +150,23 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
     }
   };
 
+  const onDeleteAllCards = (boardId: string) => {
+    if (window.confirm(`전체 삭제 하시겠습니까?`)) {
+      setToDos((prevToDos) => {
+        const updatedToDos = prevToDos.map((board) => {
+          if (board.id === boardId) {
+            return {
+              ...board,
+              toDos: [],
+            };
+          }
+          return board;
+        });
+        return updatedToDos;
+      });
+    }
+  };
+
   const onDeleteBoard = (category: string) => {
     if (window.confirm(`${category} 보드를 삭제하시겠습니까?`)) {
       setToDos((prevToDos) => {
@@ -163,16 +181,22 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
       <Header>
         <Title>{category}</Title>
         <Buttons>
-          {' '}
           <Button onClick={onEdit}>
             <BsPencil name='edit' />
+          </Button>
+          <Button
+            onClick={() => {
+              onDeleteAllCards(boardId);
+            }}
+          >
+            <TbHttpDelete name='deleteCard' />
           </Button>
           <Button
             onClick={() => {
               onDeleteBoard(category);
             }}
           >
-            <AiOutlineDelete name='delete' />
+            <AiOutlineDelete name='deleteBoard' />
           </Button>
         </Buttons>
       </Header>
