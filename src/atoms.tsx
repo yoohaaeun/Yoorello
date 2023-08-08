@@ -1,8 +1,12 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 export const darkModeState = atom({
   key: 'darkModeState',
   default: false,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export interface IToDoState {
@@ -15,21 +19,6 @@ export interface IToDo {
   id: string;
   text: string;
 }
-
-const localStorageEffect =
-  (key: string) =>
-  ({ setSelf, onSet }: any) => {
-    const savedValue = localStorage.getItem(key);
-    if (savedValue != null) {
-      setSelf(JSON.parse(savedValue));
-    }
-
-    onSet((newValue: any, _: any, isReset: any) => {
-      isReset
-        ? localStorage.removeItem(key)
-        : localStorage.setItem(key, JSON.stringify(newValue));
-    });
-  };
 
 export const toDoState = atom<IToDoState[]>({
   key: 'toDo',
@@ -51,5 +40,5 @@ export const toDoState = atom<IToDoState[]>({
     },
   ],
 
-  effects: [localStorageEffect('yoorello-to-dos')],
+  effects_UNSTABLE: [persistAtom],
 });

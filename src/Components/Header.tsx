@@ -1,5 +1,7 @@
 import AddBoard from './AddBoard';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { darkModeState } from '../atoms';
 
 const Wrapper = styled.header`
   width: 100%;
@@ -23,7 +25,8 @@ const Logo = styled.h1`
   font-weight: 800;
 `;
 
-export default function Header({ isDark, setIsDark }: any) {
+export default function Header() {
+  const [isDark, setIsDark] = useRecoilState(darkModeState);
   const toggleDark = () => setIsDark((prev: any) => !prev);
 
   return (

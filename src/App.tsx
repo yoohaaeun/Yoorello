@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { toDoState } from './atoms';
+import { darkModeState, toDoState } from './atoms';
 import Board from './Components/Board';
 import Header from './Components/Header';
 import { darkTheme, lightTheme } from './theme';
@@ -93,7 +93,7 @@ const Boards = styled.div`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const [isDark, setIsDark] = useState(false);
+  const isDark = useRecoilValue(darkModeState);
 
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
@@ -161,7 +161,7 @@ function App() {
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <GlobalStyle />
-      <Header isDark={isDark} setIsDark={setIsDark} />
+      <Header />
       <DragDropContext onDragEnd={onDragEnd}>
         <Wrapper>
           <Boards>
