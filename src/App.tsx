@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -80,7 +79,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 10rem);
 `;
 
 const Boards = styled.div`

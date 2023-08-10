@@ -5,41 +5,44 @@ import { darkModeState } from '../atoms';
 
 const Wrapper = styled.header`
   width: 100%;
-  height: 5rem;
+  height: 10rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.7rem;
+  padding: 1rem 2rem;
 `;
 
-const Logo = styled.h1`
+const Buttons = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 13rem;
-  height: 5rem;
-  border-radius: 15px;
-  background-color: #daeeff;
-  color: #ffabb9;
-  font-size: 3rem;
-  font-weight: 800;
+  gap: 10px;
+`;
+
+const DarkModeBtn = styled.img`
+  width: 4rem;
+  height: auto;
 `;
 
 export default function Header() {
   const [isDark, setIsDark] = useRecoilState(darkModeState);
+  const mode = isDark ? 'dark' : 'light';
+
   const toggleDark = () => setIsDark((prev: any) => !prev);
 
   return (
     <Wrapper>
-      <Logo>Yoorello</Logo>
-      <AddBoard />
-      <div>
-        {isDark ? (
-          <div onClick={toggleDark}>☀️</div>
-        ) : (
-          <div onClick={toggleDark}>🌚</div>
-        )}
-      </div>
+      <img src={`/images/${mode}Logo.png`} alt='' />
+      <Buttons>
+        <AddBoard />
+        <div>
+          <DarkModeBtn
+            onClick={toggleDark}
+            src={`/images/${mode}ModeBtn.png`}
+            alt=''
+          />
+        </div>
+      </Buttons>
     </Wrapper>
   );
 }

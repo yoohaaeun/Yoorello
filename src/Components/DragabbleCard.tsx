@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -89,7 +89,6 @@ function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
 
   return (
     <>
-      {' '}
       <Draggable draggableId={toDoId + ''} index={index}>
         {(provided, snapshot) => (
           <Card

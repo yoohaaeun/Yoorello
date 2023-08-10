@@ -1,74 +1,47 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { toDoState } from '../atoms';
-import { v4 as uuidv4 } from 'uuid';
+import { darkModeState } from '../atoms';
+import AddBoardModal from './AddBoardModal';
 
-const From = styled.form`
+const Overlay = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const Input = styled.input`
-  border: none;
-  border-bottom: 1px solid darkgray;
-  outline: none;
-  margin-right: 10px;
-  background-color: transparent;
-  cursor: pointer;
+const AddBoardBtn = styled.img`
+  width: 4rem;
+  height: auto;
 `;
-
-const Button = styled.button`
-  width: 2.5rem;
-  height: 1.5rem;
-  border: none;
-  border-radius: 5px;
-  background-color: #98c679;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-interface IForm {
-  category: string;
-}
 
 export default function AddBoard() {
-  const setToDos = useSetRecoilState(toDoState);
-  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const [clicked, setClicked] = useState<boolean>(false);
+  const isDark = useRecoilValue(darkModeState);
+  const mode = isDark ? 'dark' : 'light';
 
-  const onValid = ({ category }: IForm) => {
-    if (category.trim() === '') {
-      return;
-    }
-
-    setToDos((prev) => {
-      const newBoard = {
-        category,
-        id: `board-${uuidv4()}`,
-        toDos: [],
-      };
-
-      return [...prev, newBoard];
-    });
-
-    setValue('category', '');
+  const handleOverlayClick = () => {
+    setClicked((prev) => !prev);
   };
 
   return (
-    <>
-      <From onSubmit={handleSubmit(onValid)}>
-        <Input
-          {...register('category')}
-          type='text'
-          id='category_text'
-          placeholder='✏️ Add To Category'
-        />
-        <Button>Add</Button>
-      </From>
-    </>
+    <div>
+      <AddBoardBtn
+        src={`/images/${mode}AddBordBtn.png`}
+        alt=''
+        onClick={handleOverlayClick}
+      />
+      {clicked ? (
+        <Overlay>
+          <AddBoardModal setClicked={handleOverlayClick} />
+        </Overlay>
+      ) : null}
+    </div>
   );
 }

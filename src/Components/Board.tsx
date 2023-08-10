@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { BsPencil } from 'react-icons/bs';
 import { TbHttpDelete } from 'react-icons/tb';
 
 const Wrapper = styled.div`
@@ -16,8 +14,9 @@ const Wrapper = styled.div`
   min-width: 200px;
   padding-top: 10px;
   background-color: ${(props) => props.theme.boardColor};
-  border-radius: 5px;
+  border-radius: 30px;
   min-height: 300px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 const Header = styled.header`
@@ -48,8 +47,12 @@ const Button = styled.button`
   font-size: 18px;
 
   &:hover {
-    color: #ff7458;
     transform: scale(1.2);
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -75,7 +78,7 @@ const Form = styled.form`
   width: 100%;
   text-align: center;
   background-color: ${(props) => props.theme.TaskInputBg};
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 30px 30px;
 
   input {
     width: 90%;
@@ -182,7 +185,7 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
         <Title>{category}</Title>
         <Buttons>
           <Button onClick={onEdit}>
-            <BsPencil name='edit' />
+            <img src='/images/pencil.png' alt='' />
           </Button>
           <Button
             onClick={() => {
@@ -196,7 +199,7 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
               onDeleteBoard(category);
             }}
           >
-            <AiOutlineDelete name='deleteBoard' />
+            <img src='/images/wastebasket.png' alt='' />
           </Button>
         </Buttons>
       </Header>
