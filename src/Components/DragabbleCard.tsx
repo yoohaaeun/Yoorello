@@ -6,7 +6,7 @@ import { toDoState } from '../atoms';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsPencil } from 'react-icons/bs';
 
-const Card = styled.div<{ $isDragging: boolean }>`
+const Card = styled.li<{ $isDragging: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;

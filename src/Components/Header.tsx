@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { darkModeState } from '../atoms';
 
 const Wrapper = styled.header`
-  width: 100%;
+  width: 100vw;
   height: 10rem;
   display: flex;
   justify-content: space-between;

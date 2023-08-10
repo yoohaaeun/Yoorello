@@ -10,13 +10,16 @@ import { TbHttpDelete } from 'react-icons/tb';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
   min-width: 200px;
+  max-height: calc(100vh - 15rem);
   padding-top: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 30px;
   min-height: 300px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 const Header = styled.header`
@@ -61,7 +64,7 @@ interface IAreaProps {
   $isDraggingFromThis: boolean;
 }
 
-const Area = styled.div<IAreaProps>`
+const Area = styled.ul<IAreaProps>`
   flex-grow: 1;
   padding: 20px 20px 0px 20px;
   background-color: ${(props) =>

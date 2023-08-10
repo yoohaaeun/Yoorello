@@ -75,19 +75,19 @@ a {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
-  margin: 0 auto;
   justify-content: center;
-  align-items: center;
+  width: 100vw;
   height: calc(100vh - 10rem);
 `;
 
 const Boards = styled.div`
   display: flex;
-  width: 80%;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2rem;
+  gap: 20px;
+  overflow-x: scroll;
+  overflow-y: hidden;
 `;
 
 function App() {
