@@ -14,6 +14,11 @@ const Modal = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 15rem;
+    height: 11rem;
+  }
 `;
 
 const From = styled.form`
@@ -34,14 +39,22 @@ const Input = styled.input`
 const AddBtn = styled.img`
   width: 2.5rem;
   height: 1.5rem;
+  cursor: pointer;
 `;
 
 const CloseBtn = styled.img`
   position: absolute;
   top: 10px;
   right: -15px;
-  width: 50px;
+  width: 3rem;
   height: auto;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 2.5rem;
+    top: 10px;
+    right: -30px;
+  }
 `;
 
 interface IForm {

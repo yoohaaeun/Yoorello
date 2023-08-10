@@ -5,34 +5,38 @@ import styled from 'styled-components';
 import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
-import { TbHttpDelete } from 'react-icons/tb';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-width: 200px;
+  height: auto;
+  max-width: 20rem;
+  min-width: 15rem;
   max-height: calc(100vh - 15rem);
-  padding-top: 10px;
+  min-height: 300px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 30px;
-  min-height: 300px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  overflow-x: hidden;
-  overflow-y: scroll;
+  box-shadow: ${(props) => props.theme.boardShadow};
+
+  &:hover {
+    box-shadow: ${(props) => props.theme.boardShadowHover};
+  }
+
+  @media (max-width: 768px) {
+    min-width: 13rem;
+  }
 `;
 
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px 5px 15px;
+  padding: 20px 20px 5px 20px;
 `;
 
 const Title = styled.h2`
   text-align: center;
   font-weight: 600;
-  margin-bottom: 10px;
   font-size: 18px;
 `;
 
@@ -40,6 +44,12 @@ const Buttons = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  ${Wrapper}:hover & {
+    opacity: 1;
+  }
 `;
 
 const Button = styled.button`
@@ -56,6 +66,11 @@ const Button = styled.button`
   img {
     width: 20px;
     height: 20px;
+
+    @media (max-width: 768px) {
+      width: 17px;
+      height: 17px;
+    }
   }
 `;
 
@@ -66,7 +81,7 @@ interface IAreaProps {
 
 const Area = styled.ul<IAreaProps>`
   flex-grow: 1;
-  padding: 20px 20px 0px 20px;
+  padding: 10px 20px;
   background-color: ${(props) =>
     props.$isDraggingOver
       ? '#E8F1D9'
@@ -75,10 +90,11 @@ const Area = styled.ul<IAreaProps>`
       : ''};
   transition: background-color 0.3s ease-in-out;
   border-radius: 0 0 5px 5px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 const Form = styled.form`
-  width: 100%;
   text-align: center;
   background-color: ${(props) => props.theme.TaskInputBg};
   border-radius: 0 0 30px 30px;
@@ -157,7 +173,7 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
   };
 
   const onDeleteAllCards = (boardId: string) => {
-    if (window.confirm(`전체 삭제 하시겠습니까?`)) {
+    if (window.confirm(`카드를 전체 삭제 하시겠습니까?`)) {
       setToDos((prevToDos) => {
         const updatedToDos = prevToDos.map((board) => {
           if (board.id === boardId) {
@@ -195,14 +211,14 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
               onDeleteAllCards(boardId);
             }}
           >
-            <TbHttpDelete name='deleteCard' />
+            <img src='/images/tornado.png' alt='' />
           </Button>
           <Button
             onClick={() => {
               onDeleteBoard(category);
             }}
           >
-            <img src='/images/wastebasket.png' alt='' />
+            <img src='/images/bomb.png' alt='' />
           </Button>
         </Buttons>
       </Header>
@@ -231,6 +247,7 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
           {...register('toDo', { required: true })}
           type='text'
           placeholder={`Add task on ${category}`}
+          maxLength={30}
         />
       </Form>
     </Wrapper>

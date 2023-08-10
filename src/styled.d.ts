@@ -8,5 +8,7 @@ declare module 'styled-components' {
     borderColor: string;
     focusColor: string;
     TaskInputBg: string;
+    boardShadow: string;
+    boardShadowHover: string;
   }
 }

@@ -17,8 +17,17 @@ const Overlay = styled.div`
 `;
 
 const AddBoardBtn = styled.img`
-  width: 4rem;
+  width: 5rem;
   height: auto;
+  cursor: pointer;
+
+  @media (max-width: 576px) {
+    width: 4rem;
+  }
+
+  @media (max-width: 400px) {
+    width: 3rem;
+  }
 `;
 
 export default function AddBoard() {

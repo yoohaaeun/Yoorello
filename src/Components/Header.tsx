@@ -12,6 +12,16 @@ const Wrapper = styled.header`
   padding: 1rem 2rem;
 `;
 
+const Logo = styled.img`
+  @media (max-width: 768px) {
+    width: 11rem;
+  }
+
+  @media (max-width: 400px) {
+    width: 8rem;
+  }
+`;
+
 const Buttons = styled.div`
   display: flex;
   justify-content: center;
@@ -20,8 +30,17 @@ const Buttons = styled.div`
 `;
 
 const DarkModeBtn = styled.img`
-  width: 4rem;
+  width: 5rem;
   height: auto;
+  cursor: pointer;
+
+  @media (max-width: 576px) {
+    width: 4rem;
+  }
+
+  @media (max-width: 400px) {
+    width: 3rem;
+  }
 `;
 
 export default function Header() {
@@ -32,7 +51,7 @@ export default function Header() {
 
   return (
     <Wrapper>
-      <img src={`/images/${mode}Logo.png`} alt='' />
+      <Logo src={`/images/${mode}Logo.png`} alt='' />
       <Buttons>
         <AddBoard />
         <div>

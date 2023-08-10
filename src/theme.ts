@@ -7,6 +7,8 @@ export const darkTheme: DefaultTheme = {
   borderColor: '#E5E5E0',
   focusColor: '#9ECA7E',
   TaskInputBg: '#f5f5f529',
+  boardShadow: '0px 4px 8px rgba(0, 0, 0, 0.5);',
+  boardShadowHover: '0px 4px 8px rgba(0, 0, 0, 1);',
 };
 
 export const lightTheme: DefaultTheme = {
@@ -16,4 +18,6 @@ export const lightTheme: DefaultTheme = {
   borderColor: '#E5E5E0',
   focusColor: '#9ECA7E',
   TaskInputBg: ' #f5f5f5',
+  boardShadow: '0px 4px 8px rgba(0, 0, 0, 0.2);',
+  boardShadowHover: '0px 4px 8px rgba(0, 0, 0, 0.3);',
 };

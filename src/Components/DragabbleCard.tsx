@@ -3,8 +3,6 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from '../atoms';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { BsPencil } from 'react-icons/bs';
 
 const Card = styled.li<{ $isDragging: boolean }>`
   display: flex;
@@ -19,10 +17,22 @@ const Card = styled.li<{ $isDragging: boolean }>`
     props.$isDragging ? '0px 5px 25px #b0b0b0' : 'none'};
 `;
 
+const Text = styled.span`
+  @media (max-width: 768px) {
+    font-size: small;
+  }
+`;
+
 const Buttons = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  ${Card}:hover & {
+    opacity: 1;
+  }
 `;
 
 const Button = styled.button`
@@ -32,8 +42,15 @@ const Button = styled.button`
   transition: transform 0.2s ease;
 
   &:hover {
-    color: #ff7458;
     transform: scale(1.2);
+  }
+
+  img {
+    width: 14px;
+
+    @media (max-width: 768px) {
+      width: 12px;
+    }
   }
 `;
 
@@ -97,13 +114,13 @@ function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
             {...provided.dragHandleProps}
             {...provided.draggableProps}
           >
-            <span>{toDoText}</span>
+            <Text>{toDoText}</Text>
             <Buttons>
               <Button onClick={onEdit}>
-                <BsPencil name='edit' />
+                <img src='/images/pencil.png' alt='' />
               </Button>
               <Button onClick={onDelete}>
-                <AiOutlineDelete name='delete' />
+                <img src='/images/wastebasket.png' alt='' />
               </Button>
             </Buttons>
           </Card>
