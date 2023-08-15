@@ -1,7 +1,7 @@
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,16 +27,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const Buttons = styled.div`
-  display: none;
-
-  ${Wrapper}:hover & {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
 const Header = styled.div`
   width: 100%;
   height: 3rem;
@@ -53,6 +43,16 @@ const Title = styled.h2`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const Buttons = styled.div`
+  display: none;
+
+  ${Wrapper}:hover & {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Button = styled.button`
@@ -87,19 +87,18 @@ const Area = styled.ul<IAreaProps>`
   padding: 10px 20px;
   background-color: ${(props) =>
     props.$isDraggingOver
-      ? '#E8F1D9'
+      ? props.theme.dragOverColor
       : props.$isDraggingFromThis
-      ? '#f1d9ea'
+      ? props.theme.dragFromColor
       : ''};
   transition: background-color 0.3s ease-in-out;
-  border-radius: 0 0 5px 5px;
   overflow-x: hidden;
   overflow-y: scroll;
 `;
 
 const Form = styled.form`
   text-align: center;
-  background-color: ${(props) => props.theme.TaskInputBg};
+  background-color: ${(props) => props.theme.taskInputBg};
   border-radius: 0 0 30px 30px;
 
   input {
@@ -250,7 +249,6 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
           {...register('toDo', { required: true })}
           type='text'
           placeholder={`Add task on ${category}`}
-          maxLength={30}
         />
       </Form>
     </Wrapper>

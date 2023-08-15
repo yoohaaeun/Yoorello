@@ -5,10 +5,12 @@ declare module 'styled-components' {
     bgColor: string;
     boardColor: string;
     cardColor: string;
-    borderColor: string;
-    focusColor: string;
-    TaskInputBg: string;
+    taskInputBg: string;
     boardShadow: string;
     boardShadowHover: string;
+    dragOverColor: string;
+    dragFromColor: string;
+    draggingColor: string;
+    draggingShadow: string;
   }
 }

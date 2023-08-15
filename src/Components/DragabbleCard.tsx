@@ -12,9 +12,9 @@ const Card = styled.li<{ $isDragging: boolean }>`
   margin-bottom: 5px;
   padding: 10px 10px;
   background-color: ${(props) =>
-    props.$isDragging ? '#e3e3e3' : props.theme.cardColor};
+    props.$isDragging ? props.theme.draggingColor : props.theme.cardColor};
   box-shadow: ${(props) =>
-    props.$isDragging ? '0px 5px 25px #b0b0b0' : 'none'};
+    props.$isDragging ? props.theme.draggingShadow : 'none'};
 `;
 
 const Text = styled.span`
@@ -24,13 +24,14 @@ const Text = styled.span`
 `;
 
 const Buttons = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  display: none;
 
   ${Card}:hover & {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
     opacity: 1;
   }
 `;
@@ -63,7 +64,7 @@ interface IDragabbleCardProps {
 function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
   const setToDos = useSetRecoilState(toDoState);
   const onDelete = () => {
-    if (window.confirm(`${toDoText} 할 일을 삭제하시겠습니까?`)) {
+    if (window.confirm(`'${toDoText}'를 삭제하시겠습니까?`)) {
       setToDos((prevToDos) => {
         return prevToDos.map((board) => {
           const updatedToDos = board.toDos.filter((todo) => todo.id !== toDoId);
@@ -78,7 +79,7 @@ function DragabbleCard({ toDoId, toDoText, index }: IDragabbleCardProps) {
 
   const onEdit = () => {
     const newToDoText = window
-      .prompt('변경할 할 일 내용을 입력해주세요.', toDoText)
+      .prompt('변경할 내용을 입력해주세요.', toDoText)
       ?.trim();
 
     if (newToDoText) {
