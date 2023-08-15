@@ -1,3 +1,4 @@
+import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
@@ -123,7 +124,7 @@ interface IForm {
   toDo: string;
 }
 
-export default function Board({ category, toDos, boardId }: IBoardProps) {
+function Board({ category, toDos, boardId }: IBoardProps) {
   const setToDos = useSetRecoilState(toDoState);
 
   const { register, setValue, handleSubmit } = useForm<IForm>();
@@ -251,3 +252,5 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
     </Droppable>
   );
 }
+
+export default React.memo(Board);
