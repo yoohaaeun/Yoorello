@@ -30,7 +30,6 @@ function App() {
 
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
-    console.log(info);
 
     if (!destination) return;
 

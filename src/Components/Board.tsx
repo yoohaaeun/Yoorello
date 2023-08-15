@@ -1,7 +1,7 @@
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,7 +27,19 @@ const Wrapper = styled.div`
   }
 `;
 
-const Header = styled.header`
+const Buttons = styled.div`
+  display: none;
+
+  ${Wrapper}:hover & {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const Header = styled.div`
+  width: 100%;
+  height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -38,18 +50,9 @@ const Title = styled.h2`
   text-align: center;
   font-weight: 600;
   font-size: 18px;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-
-  ${Wrapper}:hover & {
-    opacity: 1;
-  }
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Button = styled.button`
