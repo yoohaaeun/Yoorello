@@ -6,7 +6,12 @@ import { IToDo, toDoState } from '../atoms';
 import DragabbleCard from './DragabbleCard';
 import { v4 as uuidv4 } from 'uuid';
 
-const Wrapper = styled.div`
+interface IWrapperProps {
+  $isDraggingOver: boolean;
+  $isDraggingFromThis: boolean;
+}
+
+const Wrapper = styled.div<IWrapperProps>`
   display: flex;
   flex-direction: column;
   height: auto;
@@ -14,9 +19,15 @@ const Wrapper = styled.div`
   min-width: 15rem;
   max-height: calc(100vh - 15rem);
   min-height: 300px;
-  background-color: ${(props) => props.theme.boardColor};
+  background-color: ${(props) =>
+    props.$isDraggingOver
+      ? props.theme.dragOverColor
+      : props.$isDraggingFromThis
+      ? props.theme.dragFromColor
+      : props.theme.boardColor};
   border-radius: 30px;
   box-shadow: ${(props) => props.theme.boardShadow};
+  transition: background-color 0.3s ease-in-out;
 
   &:hover {
     box-shadow: ${(props) => props.theme.boardShadowHover};
@@ -77,21 +88,9 @@ const Button = styled.button`
   }
 `;
 
-interface IAreaProps {
-  $isDraggingOver: boolean;
-  $isDraggingFromThis: boolean;
-}
-
-const Area = styled.ul<IAreaProps>`
+const Area = styled.ul`
   flex-grow: 1;
   padding: 10px 20px;
-  background-color: ${(props) =>
-    props.$isDraggingOver
-      ? props.theme.dragOverColor
-      : props.$isDraggingFromThis
-      ? props.theme.dragFromColor
-      : ''};
-  transition: background-color 0.3s ease-in-out;
   overflow-x: hidden;
   overflow-y: scroll;
 `;
@@ -201,37 +200,35 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
   };
 
   return (
-    <Wrapper>
-      <Header>
-        <Title>{category}</Title>
-        <Buttons>
-          <Button onClick={onEdit}>
-            <img src='/images/pencil.png' alt='' />
-          </Button>
-          <Button
-            onClick={() => {
-              onDeleteAllCards(boardId);
-            }}
-          >
-            <img src='/images/tornado.png' alt='' />
-          </Button>
-          <Button
-            onClick={() => {
-              onDeleteBoard(category);
-            }}
-          >
-            <img src='/images/bomb.png' alt='' />
-          </Button>
-        </Buttons>
-      </Header>
-      <Droppable droppableId={boardId}>
-        {(provided, snapshot) => (
-          <Area
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            $isDraggingOver={snapshot.isDraggingOver}
-            $isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
-          >
+    <Droppable droppableId={boardId}>
+      {(provided, snapshot) => (
+        <Wrapper
+          $isDraggingOver={snapshot.isDraggingOver}
+          $isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
+        >
+          <Header>
+            <Title>{category}</Title>
+            <Buttons>
+              <Button onClick={onEdit}>
+                <img src='/images/pencil.png' alt='' />
+              </Button>
+              <Button
+                onClick={() => {
+                  onDeleteAllCards(boardId);
+                }}
+              >
+                <img src='/images/tornado.png' alt='' />
+              </Button>
+              <Button
+                onClick={() => {
+                  onDeleteBoard(category);
+                }}
+              >
+                <img src='/images/bomb.png' alt='' />
+              </Button>
+            </Buttons>
+          </Header>
+          <Area ref={provided.innerRef} {...provided.droppableProps}>
             {toDos.map((toDo, index) => (
               <DragabbleCard
                 key={toDo.id}
@@ -242,15 +239,15 @@ export default function Board({ category, toDos, boardId }: IBoardProps) {
             ))}
             {provided.placeholder}
           </Area>
-        )}
-      </Droppable>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <input
-          {...register('toDo', { required: true })}
-          type='text'
-          placeholder={`Add task on ${category}`}
-        />
-      </Form>
-    </Wrapper>
+          <Form onSubmit={handleSubmit(onValid)}>
+            <input
+              {...register('toDo', { required: true })}
+              type='text'
+              placeholder={`Add task on ${category}`}
+            />
+          </Form>
+        </Wrapper>
+      )}
+    </Droppable>
   );
 }
