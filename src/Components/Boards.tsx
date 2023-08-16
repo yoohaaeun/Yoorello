@@ -126,42 +126,51 @@ export default function Boards() {
 
   return (
     <>
-      {toDos.length === 0 && (
+      {toDos.length === 0 ? (
         <Box>
           <EmptyMessage>
             <p>새 보드를 추가해보세요!</p>
           </EmptyMessage>
         </Box>
+      ) : (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Container>
+            <Droppable
+              droppableId='boards'
+              type='BOARDS'
+              direction='horizontal'
+            >
+              {(provided) => (
+                <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
+                  {toDos.map((toDo, index) => (
+                    <Draggable
+                      key={toDo.id}
+                      draggableId={toDo.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <Board
+                            key={toDo.id}
+                            boardId={toDo.id}
+                            toDos={toDo.toDos}
+                            category={toDo.category}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </Wrapper>
+              )}
+            </Droppable>
+          </Container>
+        </DragDropContext>
       )}
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Container>
-          <Droppable droppableId='boards' type='BOARDS' direction='horizontal'>
-            {(provided) => (
-              <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
-                {toDos.map((toDo, index) => (
-                  <Draggable key={toDo.id} draggableId={toDo.id} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <Board
-                          key={toDo.id}
-                          boardId={toDo.id}
-                          toDos={toDo.toDos}
-                          category={toDo.category}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </Wrapper>
-            )}
-          </Droppable>
-        </Container>
-      </DragDropContext>
     </>
   );
 }
