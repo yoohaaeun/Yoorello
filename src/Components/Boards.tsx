@@ -9,6 +9,22 @@ import styled from 'styled-components';
 import { toDoState } from '../atoms';
 import Board from './Board';
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: calc(100vh - 10rem);
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+`;
+
 const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -32,22 +48,6 @@ const EmptyMessage = styled.div`
     width: 13rem;
     font-size: 13px;
   }
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-  height: calc(100vh - 10rem);
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 2rem;
-  overflow-x: scroll;
-  overflow-y: hidden;
 `;
 
 export default function Boards() {
@@ -129,11 +129,7 @@ export default function Boards() {
       {toDos.length === 0 && (
         <Box>
           <EmptyMessage>
-            <p>
-              보드가 비어 있습니다.
-              <br />
-              새로운 보드를 추가해보세요!
-            </p>
+            <p>새 보드를 추가해보세요!</p>
           </EmptyMessage>
         </Box>
       )}

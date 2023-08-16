@@ -115,6 +115,14 @@ const Form = styled.form`
   }
 `;
 
+const EmptyMessage = styled.div`
+  text-align: center;
+  margin-top: 2rem;
+  color: ${(props) => props.theme.fontColor};
+
+  font-size: 13px;
+`;
+
 interface IBoardProps {
   toDos: IToDo[];
   boardId: string;
@@ -231,14 +239,18 @@ function Board({ category, toDos, boardId }: IBoardProps) {
             </Buttons>
           </Header>
           <Area ref={provided.innerRef} {...provided.droppableProps}>
-            {toDos.map((toDo, index) => (
-              <DragabbleCard
-                key={toDo.id}
-                toDoId={toDo.id}
-                toDoText={toDo.text}
-                index={index}
-              />
-            ))}
+            {toDos.length === 0 ? (
+              <EmptyMessage>보드가 비어있어요!</EmptyMessage>
+            ) : (
+              toDos.map((toDo, index) => (
+                <DragabbleCard
+                  key={toDo.id}
+                  toDoId={toDo.id}
+                  toDoText={toDo.text}
+                  index={index}
+                />
+              ))
+            )}
             {provided.placeholder}
           </Area>
           <Form onSubmit={handleSubmit(onValid)}>
