@@ -20,6 +20,7 @@ const Wrapper = styled.div<IWrapperProps>`
   min-width: 15rem;
   max-height: calc(100vh - 15rem);
   min-height: 300px;
+  margin: 0rem 0.6rem;
   background-color: ${(props) =>
     props.$isDraggingOver
       ? props.theme.dragOverColor
@@ -201,7 +202,7 @@ function Board({ category, toDos, boardId }: IBoardProps) {
   };
 
   return (
-    <Droppable droppableId={boardId}>
+    <Droppable droppableId={boardId} type='BOARD'>
       {(provided, snapshot) => (
         <Wrapper
           $isDraggingOver={snapshot.isDraggingOver}

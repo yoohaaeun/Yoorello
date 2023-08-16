@@ -2,6 +2,7 @@ import { DefaultTheme } from 'styled-components';
 
 export const darkTheme: DefaultTheme = {
   bgColor: '#403939',
+  fontColor: '#E3E1DB',
   boardColor: '#756d6a',
   cardColor: '#908885',
   taskInputBg: '#999796',
@@ -15,6 +16,7 @@ export const darkTheme: DefaultTheme = {
 
 export const lightTheme: DefaultTheme = {
   bgColor: '#E3E1DB',
+  fontColor: '#403939',
   boardColor: '#FAF9F4',
   cardColor: '#ffffff',
   taskInputBg: ' #f5f5f5',

@@ -9,6 +9,31 @@ import styled from 'styled-components';
 import { toDoState } from '../atoms';
 import Board from './Board';
 
+const Box = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EmptyMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25rem;
+  height: 5rem;
+  margin-top: 5rem;
+  background-color: ${(props) => props.theme.bgColor};
+  box-shadow: ${(props) => props.theme.boardShadowHover};
+  color: ${(props) => props.theme.fontColor};
+  border-radius: 20px;
+  text-align: center;
+
+  @media (max-width: 576px) {
+    width: 13rem;
+    font-size: 13px;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -21,7 +46,6 @@ const Wrapper = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   padding: 2rem;
-  gap: 20px;
   overflow-x: scroll;
   overflow-y: hidden;
 `;
@@ -101,34 +125,47 @@ export default function Boards() {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Container>
-        <Droppable droppableId='boards' type='BOARDS' direction='horizontal'>
-          {(provided) => (
-            <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
-              {toDos.map((toDo, index) => (
-                <Draggable key={toDo.id} draggableId={toDo.id} index={index}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <Board
-                        key={toDo.id}
-                        boardId={toDo.id}
-                        toDos={toDo.toDos}
-                        category={toDo.category}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </Wrapper>
-          )}
-        </Droppable>
-      </Container>
-    </DragDropContext>
+    <>
+      {toDos.length === 0 && (
+        <Box>
+          <EmptyMessage>
+            <p>
+              보드가 비어 있습니다.
+              <br />
+              새로운 보드를 추가해보세요!
+            </p>
+          </EmptyMessage>
+        </Box>
+      )}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Container>
+          <Droppable droppableId='boards' type='BOARDS' direction='horizontal'>
+            {(provided) => (
+              <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
+                {toDos.map((toDo, index) => (
+                  <Draggable key={toDo.id} draggableId={toDo.id} index={index}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <Board
+                          key={toDo.id}
+                          boardId={toDo.id}
+                          toDos={toDo.toDos}
+                          category={toDo.category}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Wrapper>
+            )}
+          </Droppable>
+        </Container>
+      </DragDropContext>
+    </>
   );
 }

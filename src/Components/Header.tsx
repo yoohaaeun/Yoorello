@@ -26,7 +26,7 @@ const Buttons = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 0.6rem;
 `;
 
 const DarkModeBtn = styled.img`
